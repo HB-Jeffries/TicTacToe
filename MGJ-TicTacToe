@@ -1,8 +1,13 @@
-##From https://codereview.stackexchange.com/questions/108738/python-tic-tac-toe-game,
-##Thanks to User:200_success
+#from: https://codereview.stackexchange.com/questions/108738/python-tic-tac-toe-game
+#With changes by MGJ
 
 def tic_tac_toe():
-    board = [None] + list(range(1, 10))
+    def clear_board():
+      return [None] + list(range(1, 10));
+
+    board = clear_board();
+    turn = 1;
+
     WIN_COMBINATIONS = [
        (1, 2, 3),
        (4, 5, 6),
@@ -40,16 +45,31 @@ def tic_tac_toe():
         if 9 == sum((pos == 'X' or pos == 'O') for pos in board):
             print("The game ends in a tie\n")
             return True
+        else:
+          return False;
 
-    for player in 'XO' * 9:
+    def playerTurn(turn):
+      if turn%2==1:
+        player = 'X';
+      else:
+          player = 'O';
+      print("Player {0} pick your move".format(player))
+      board[choose_number()] = player
+
+    while not is_game_over():
         draw()
+        playerTurn(turn)
+        turn+=1;
         if is_game_over():
+          board = clear_board();
+          turn = 1;
+          if input("Play again (y/n)\n") != "y":
             break
-        print("Player {0} pick your move".format(player))
-        board[choose_number()] = player
         print()
 
+
 while True:
-    tic_tac_toe()
-    if input("Play again (y/n)\n") != "y":
-        break
+    if input("Would you like to play a game? (y/n)\n") == "y":
+        tic_tac_toe()
+    else:
+      break
